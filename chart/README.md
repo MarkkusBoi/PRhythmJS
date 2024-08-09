@@ -40,7 +40,8 @@ The scheme I've devised to store the chart information is basically just using t
 - There can be multiple tags per line, but they must be seperated by a semicolon.
 
 # Proper Porting of Charts
-This is still up in the air, but the method I use involves getting a recording of the chart playing in the desired difficulty in the "View Perfect Play" mode. 60FPS PS4/PS5 capture from an external recording device is prefered, but I used a 30FPS capture from a PS Vita for the chart I made. The audio for the track is extracted and converted straight from the game's files. I then align the audio and the video in a video editor and analyze frame-by-frame to see exactly the timestamp that the notes are hit.
+This is still up in the air, but the method I use involves getting a recording of the chart playing in the desired difficulty in the "View Perfect Play" mode. 60FPS PS4/PS5 capture from an external recording device is prefered, but I used a 30FPS capture from a PS Vita for the chart I made. The audio for the track is extracted and converted straight from the game's files. I then align the audio and the video in a video editor and analyze frame-by-frame to see the exact timestamp that the notes are hit.
+As for trying to read the original chart format from the game to convert it, good luck.
 
 # Other Notes
 - Some LRC editors like to combine like lines together, but the game is not programmed to handle this. I am not sure what will happen if it tries to parse a line like this and I don't particularly care to find out.
