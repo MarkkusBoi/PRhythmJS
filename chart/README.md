@@ -20,7 +20,7 @@ The scheme I've devised to store the chart information is basically just using t
     6. Lower-right corner
 - A **tag** refers to a note with a position
 
-![Image representing the positions of the note lanes](chart/FORMAT_IMG01.png)
+![Image representing the positions of the note lanes](FORMAT_IMG01.png)
 
 # Structure
 - Charts start at the [0:00.000] tag to include metadata. This metadata is mandatory and must be on the first line. These are just strings, but they are contained in curly brackets and there are no spaces seperating them.
