@@ -15,4 +15,4 @@ PRhythmJS is a HTML/JavaScript project looking to recreate the Persona Dancing r
 
 # Running
 The project can be ran by cloning or donwloading a zip of the project, extracting it, and opening rhythm.html in a browser.
-There is also a GitHub Pages deployment [here.]("https://markkusboi.github.io/PRhythmJS/")
+There is also a GitHub Pages deployment [here.](https://markkusboi.github.io/PRhythmJS/)
