@@ -3,21 +3,21 @@ The scheme I've devised to store the chart information is basically just using t
 
 # Terminology
 - A **note** refers to a type of note with they type being one of the following (the number is the note id)
-    1. Normal
-    2. Double
-    3. Hold Start
-    4. Hold End
-    5. Scratch
-    6. Fever Scratch
+    - 1 - Normal
+    - 2 - Double
+    - 3 - Hold Start
+    - 4 - Hold End
+    - 5 - Scratch
+    - 6 - Fever Scratch
 - A **unison note** is when two normal notes arrive at their destinations at the same time and are on opposite sides of each other (one is on the left side and one is on the right side) 
 - A **position** refers to the position the note is traveling to (refer to the below image to see the note positions)
-    0. Scratch lane
-    1. Upper-left corner
-    2. Upper-right corner
-    3. Middle left side
-    4. Middle right side
-    5. Lower-left corner
-    6. Lower-right corner
+    - 0 - Scratch lane
+    - 1 - Upper-left corner
+    - 2 - Upper-right corner
+    - 3 - Middle left side
+    - 4 - Middle right side
+    - 5 - Lower-left corner
+    - 6 - Lower-right corner
 - A **tag** refers to a note with a position
 
 ![Image representing the positions of the note lanes](FORMAT_IMG01.png)
