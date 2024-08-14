@@ -64,28 +64,103 @@ var updatesPerTick = 0;
 var uiTick = 0;
 // list of typical refresh rates
 const refreshRates = [24, 30, 60, 120, 144, 240, 360, 1000];
+var drawables = [];
 
 // events
 
+// Different types of curves (keeping it basic for now)
+const CurveTypes = Object.freeze({
+	LINEAR: 1,
+	CURVE: 2
+});
 
 // Path class
+// Every object that needs to move should have it's own unique path object attached to it
+// x and y are going to be multipliers so we don't have to worry about canvas size changes
 class Path {
+    x = 0;
+    y = 0;
+    running = false;
+    points = 2;
+    currentPoint = 0;
+
     constructor(startPoint, interPoints, endPoint) {
         if (interPoints == null) {
             this.interPoints == null;
         } else {
             this.interPoints = interPoints;
+            this.points += interPoints.length;
         }
 
         this.startPoint = startPoint;
+        this.x = startPoint.x;
+        this.y = startPoint.y;
         this.endPoint = endPoint;
+    }
+
+    reset() {
+        this.startPoint.finished = false;
+        this.endPoint.finished = false;
+
+        if (this.interPoints != null) {
+            for (let i = 0; i < this.interPoints.length; i++) {
+                this.interPoints[i].finished = false;
+            }
+        }
+    }
+
+    // send thing on path
+    // paths are stopped by default
+    resume() {
+        if (!this.running) {
+            console.log(`path has been requested to be resumed`);
+            this.running = true;
+        } else {
+            console.error(`path that is resumed has been requested to be resumed!`);
+        }
+    }
+
+    // stop updating the path
+    stop() {
+        if (this.running) {
+            console.log(`path has been requested to be stopped`);
+            this.running = false;
+        } else {
+            console.error(`path that is stopped has been requested to stop!`);
+        }
+    }
+
+    // update the position of the object on the path
+    update() {
+
     }
 }
 
 // Point class
 class PathPoint {
-    constructor() {
+    finished = false;
+    constructor(x, y, curveType, curveTime) {
+        this.x = x;
+        this.y = y;
+        this.curveType = curveType;
+        this.curveTime = curveTime;
+    }
+}
 
+class TestDrawable {
+    x = 0;
+    y = 0;
+    constructor(path) {
+        this.path = path;
+        this.x = this.path.x;
+        this.y = this.path.y;
+    }
+
+    draw() {
+        if (this.path.running) {
+            this.path.update();
+            drawCircle(this.x * cWidth, this.y * cHeight, cWidth * 0.04, `rgb(100, 100, 100)`, cWidth * 0.01, ctx);
+        }
     }
 }
 
@@ -125,17 +200,6 @@ function determineTick(result) {
     var fixedResult = Math.ceil(result);
     var lowestDelta = 99999999; // bogus, displays will probably never reach this refresh rate (never say never)
     var lowestIndex = 0;
-    // account for (small) precision error (old method, very bad)
-    //if (!refreshRates.includes(Math.ceil(result))) {
-    //    console.log(`Result ${Math.ceil(result)} is not exact. Correcting...`);
-    //    if (refreshRates.includes(Math.ceil(result) - 1)) {
-    //        fixedResult = refreshRates[refreshRates.findIndex((element) => element == (Math.ceil(result) - 1))];
-    //    } else {
-    //        if (refreshRates.includes(Math.ceil(result) + 1)) {
-    //            fixedResult = refreshRates[refreshRates.findIndex((element) => element == (Math.ceil(result) + 1))];
-    //        }
-    //    }
-    //}
 
     // new precision error algorithm
     if (!refreshRates.includes(Math.ceil(result))) {
@@ -264,6 +328,11 @@ function drawScene() {
     // web bad
     drawCircle(cWidth / 2 - cHeight * 0.2, cHeight / 2, Math.abs(cWidth * 0.05 * Math.sin(gTick / (1000 / (tickrate * updatesPerTick)) * updatesPerTick)), `rgba(0, 255, 255, 1)`, cWidth * 0.002, ctx);
     drawCircle(cWidth / 2 + cHeight * 0.2, cHeight / 2, Math.abs(cWidth * 0.05 * Math.sin(uiTick / (1000 / (tickrate * updatesPerTick)))), `rgba(255, 255, 255, 1)`, cWidth * 0.002, ctx);
+
+    // draw the drawables
+    for (let i = 0; i < drawables.length; i++) {
+        drawables[i].draw();
+    }
 }
 
 function startGame() {
@@ -347,6 +416,14 @@ function update(ts) {
     updateId = requestAnimationFrame(update);
 }
 
+function testButton() {
+    if (drawables[0].path.running) {
+        drawables[0].path.stop();
+    } else {
+        drawables[0].path.resume();
+    }
+}
+
 // https://isaacsukin.com/news/2015/01/detailed-explanation-javascript-game-loops-and-timing
 // https://developer.mozilla.org/en-US/docs/Games/Anatomy
 ;(()  => {
@@ -358,6 +435,9 @@ function update(ts) {
 
         updateId = requestAnimationFrame(update);
     }
+
+    // test
+    drawables.push(new TestDrawable(new Path(new PathPoint(.3, .3, CurveTypes.LINEAR, 1000), new PathPoint(.5, .5, CurveTypes.LINEAR, 0))));
 
     main();
 })();
