@@ -132,7 +132,34 @@ class Path {
 
     // update the position of the object on the path
     update() {
-
+        if (this.interPoints == null) {
+            switch (this.currentPoint) {
+                case 1:
+                    this.startPoint.update();
+                    break;
+                case 2:
+                    this.endPoint.update();
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            switch (this.currentPoint) {
+                case 1:
+                    // startPoint update
+                    this.startPoint.update();
+                    break;
+                case (1 + this.interPoints.length):
+                    // endPoint update
+                    this.endPoint.update();
+                    break;
+                default:
+                    // interPoints update
+                    this.interPoints[currentPoint - 2].update();
+                    break;
+            }
+        }
+        
     }
 }
 
@@ -144,6 +171,10 @@ class PathPoint {
         this.y = y;
         this.curveType = curveType;
         this.curveTime = curveTime;
+    }
+
+    update() {
+
     }
 }
 
@@ -170,8 +201,8 @@ class TestDrawable {
 // need to occur before running a tick.
 // This way we don't need to use imprecise timers.
 // 
-// DOWNSIDE: Display refresh can change during execution and
-// fps calculation could be inaccurate.
+// DOWNSIDE: Display refresh can change after execution starts
+// and fps calculation could be inaccurate.
 // POTENTIAL SOLUTION: Periodically recalculate the fps and
 // updatesPerTick value.
 // calcFPS function from https://stackoverflow.com/a/45580752
@@ -198,7 +229,7 @@ function calcFPS(opts){
 // This is based on the current refresh rate
 function determineTick(result) {
     var fixedResult = Math.ceil(result);
-    var lowestDelta = 99999999; // bogus, displays will probably never reach this refresh rate (never say never)
+    var lowestDelta = 99999999; // bogus
     var lowestIndex = 0;
 
     // new precision error algorithm
@@ -221,7 +252,7 @@ function determineTick(result) {
     let currentTimestep = 1000 / fixedResult;
     updatesPerTick = Math.ceil(idealTimestep / currentTimestep);
     uptSet = true;
-    console.log(`Estimated screen refresh rate: ${fixedResult}, resulting updatesPerTick: ${updatesPerTick}`);
+    console.info(`DISPLAY: Estimated screen refresh rate: ${fixedResult}, resulting updatesPerTick: ${updatesPerTick}`);
 }
 
 function gcd(a, b) {
