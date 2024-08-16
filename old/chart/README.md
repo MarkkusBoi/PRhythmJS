@@ -1,3 +1,5 @@
+# THIS METHOD IS NO LONGER USED
+
 # Chart Format
 The scheme I've devised to store the chart information is basically just using the .lrc file format.
 
