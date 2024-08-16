@@ -1,8 +1,12 @@
 # Chart/Music Data
-I have decided to use the actual game's chart/data format (.mns files) instead of manually porting every chart to some new format. This file will serve as my knowlege base on the format.
+I have decided to use the actual game's chart/data format (.MNS files) instead of manually porting every chart to some new format. This file will serve as my knowlege base on the format. 
+
 This information is from the [Amicitia Wiki](https://amicitia.miraheze.org/wiki/MNS) and [tge-was-taken's 010 Editor template](https://github.com/tge-was-taken/010-Editor-Templates/blob/master/templates/p4d_mns.bt) as well as my own findings.
+
 At some point it would be very nice to get a graphical tool up and running to edit these files, but that is a long ways away.
+
 MNS could stand for Music Note Storage, Music Note Sequence, Music Note Script, or Mapped Note Sequence. Something else? Who knows?
+
 **Information in this could be completely wrong.**
 
 # Header (36 bytes)
@@ -15,14 +19,13 @@ MNS could stand for Music Note Storage, Music Note Sequence, Music Note Script, 
 | 0x010  | F32  | Song BPM        |
 | 0x014  | U16  | MusicIdMajor    |
 | 0x016  | U16  | Song difficulty |
-| 0x018  | U32  | Prob unused?    |
+| 0x018  | U32  | Unused?         |
 | 0x01C  | U32  | Number of notes |
 | 0x020  | U32  | Always 0        |
 
 # Note (8 bytes per note)
 Any data after the header is always a note.
 
-In a table:
 | Offset | Type | Data            |
 | ------ | ---- | --------------- |
 | 0x00   | U8   | 1/4 of measure  |
