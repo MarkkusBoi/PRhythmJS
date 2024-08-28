@@ -35,6 +35,7 @@ enum dMeta : u16 {
     Normal = 0,
     FEVER = 1,
     Double = 2,
+    DoubleDouble = 6,
 };
 
 struct dNote {
